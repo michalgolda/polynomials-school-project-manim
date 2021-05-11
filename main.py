@@ -1,5 +1,4 @@
 from manim import *
-from manim.mobject.geometry import ArrowTriangleTip
 
 
 BLACK_COLOR = "#16191F"
@@ -24,14 +23,14 @@ class NDegreeMonomialScene(Scene):
 
 		formula = VGroup(
 			MathTex(r"a", r"\cdot", r"x^", r"{n}"),
-			MathTex(r"a \in R", r"a \neq 0", r"n \in N+")
+			MathTex(r"a \in R", r"a \neq 0", r"n \in N_{+}")
 		)
 		formula.arrange(DOWN, buff=1.5, center=True)
 
 		formula[0].scale(2)
 
 		self.play(Write(formula[0]))
-		self.wait(2)
+		self.wait(5)
 
 		formula[1].set_color(GOLD_COLOR)
 		formula[1].arrange(RIGHT, buff=1)
@@ -109,6 +108,7 @@ class NDegreePolynomialScene(MovingCameraScene):
 		)
 
 		self.play(Create(formula))
+		self.wait(7)
 
 		monomial = formula[0]
 		monomial_framebox = SurroundingRectangle(monomial)
@@ -140,13 +140,15 @@ class NDegreePolynomialScene(MovingCameraScene):
 		self.wait()
 
 		self.play(Uncreate(formula))
+		self.wait(3)
 
 		marks = MathTex(r"W(x)", r"P(x)", r"Q(x)")
 		marks.arrange(RIGHT, buff=1.5)
 		marks.scale(1.5)
 
-		self.play(Create(marks))
-		self.wait()
+		for mark in marks:
+			self.play(Write(mark))
+			self.wait()
 
 		marks.generate_target()
 		marks.target.shift(2*UP)
@@ -167,7 +169,7 @@ class NDegreePolynomialScene(MovingCameraScene):
 		self.wait()
 
 
-class ExamplePolynomialFactoringScene(Scene):
+class PolynomialFactoringWaysScene(Scene):
 	def construct(self):
 		title = Tex("Rozkład wielomianu na czynniki")
 		title.scale(1.7)
@@ -178,6 +180,33 @@ class ExamplePolynomialFactoringScene(Scene):
 
 		self.play(Unwrite(title))
 
+		title = Tex("Sposoby rozkładu wielomianu na czynniki")
+		title.scale(1.25)
+		title.set_color(GOLD_COLOR)
+		title.generate_target()
+		title.target.shift(3*UP)
+
+		self.play(Write(title))
+		self.wait()
+
+		self.play(MoveToTarget(title))
+		self.wait()
+
+		factoring_ways = VGroup(
+			Tex("- wyciągnięcie wspólnego czynnika przed nawias,"),
+			Tex("- wzory skróconego mnożenia,"),
+			Tex("- delta,"),
+			Tex("- grupowanie wyrazów.")
+		)
+		factoring_ways.arrange(DOWN, buff=0.5, aligned_edge=LEFT)
+
+		for way in factoring_ways:
+			self.play(Write(way))
+			self.wait()
+
+
+class ExamplePolynomialFactoringScene(Scene):
+	def construct(self):
 		formula = VGroup(
 			MathTex(
 				r"P(x)=", r"(x^{2} + 2x + 1)", r"(3x^{2} + 2x - 1)"
@@ -227,7 +256,7 @@ class ExamplePolynomialFactoringScene(Scene):
 		formula[3][2].set_color(GOLD_COLOR)
 
 		self.play(Create(formula[3]))
-		self.wait()
+		self.wait(4)
 
 		self.play(Uncreate(formula))
 
@@ -236,3 +265,66 @@ class ExamplePolynomialFactoringScene(Scene):
 
 		self.play(Create(factored_polynomial))
 		self.wait()
+
+
+class FirstExerciseScene(Scene):
+	def construct(self):
+		exercise_number = Tex("Zadanie 1")
+		exercise_number.scale(1)
+		exercise_number.set_color(GOLD_COLOR)
+	
+		exercise_description = VGroup(
+			Tex("Rowiąż równanie"),
+			MathTex(r"(x^{3} - 8)(x - 5)(2x + 1) = 0")
+		)
+		exercise_description.arrange(RIGHT, buff=0.25)
+		exercise_description.scale(0.85)
+
+		text_group = VGroup(
+			exercise_number,
+			exercise_description
+		)
+		text_group.arrange(DOWN, buff=0.25, aligned_edge=LEFT)
+
+		self.play(Write(text_group))
+		self.wait()
+
+		text_group.generate_target()
+		text_group.target.shift(3*UP)
+		text_group.target.shift(2*LEFT)
+
+		self.play(MoveToTarget(text_group))
+		self.wait(2)
+
+
+class SecondExerciseScene(Scene):
+	def construct(self):
+		exercise_number = Tex("Zadanie 2")
+		exercise_number.scale(1)
+		exercise_number.set_color(GOLD_COLOR)
+	
+		exercise_description = VGroup(
+			Tex("Sprawdź, czy podane wielomiany W(x) i F(x) są równe."),
+			MathTex(
+				r"W(X) = (2x - 1)^{2}(x + 3)", 
+				r"F(x) = 4x^{3} + 12x^{2} + x + 3"
+			).arrange(RIGHT, buff=0.5)
+		)
+		exercise_description.arrange(DOWN, buff=0.25)
+		exercise_description.scale(0.85)
+
+		text_group = VGroup(
+			exercise_number,
+			exercise_description
+		)
+		text_group.arrange(DOWN, buff=0.25, aligned_edge=LEFT)
+
+		self.play(Write(text_group))
+		self.wait()
+
+		text_group.generate_target()
+		text_group.target.shift(2.5*UP)
+		text_group.target.shift(1.2*LEFT)
+
+		self.play(MoveToTarget(text_group))
+		self.wait(2)
